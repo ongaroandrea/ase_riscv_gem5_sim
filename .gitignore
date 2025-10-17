@@ -62,3 +62,5 @@ g5v_pipeline.txt
 
 # Default location for installation
 tools/
+
+.DS_Store
