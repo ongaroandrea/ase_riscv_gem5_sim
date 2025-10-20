@@ -64,3 +64,6 @@ g5v_pipeline.txt
 tools/
 
 .DS_Store
+
+# Temporary files
+~*
