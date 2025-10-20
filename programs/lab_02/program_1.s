@@ -66,10 +66,11 @@ loop:
     fsw f8, 0(x16)                      # Store the result in V6
 
     # Decrease counter
-    sub x2, x2, 1                       # x2 = x2 - 1
+    li x21, 1
+    sub x2, x2, x21                      # x2 = x2 - 1
 
     # Loop condition
-    bne x2, 0, loop                     # If i >= 0, repeat loop                    
+    bne x2, x0, loop                     # If i >= 0, repeat loop                    
 
 finish:
     li a7, 93                           # ecall for exit            
