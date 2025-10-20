@@ -70,7 +70,7 @@ loop:
     sub x2, x2, x21                      # x2 = x2 - 1
 
     # Loop condition
-    bne x2, x0, loop                     # If i >= 0, repeat loop                    
+    bge x2, x0, loop                     # If i >= 0, repeat loop                    
 
 finish:
     li a7, 93                           # ecall for exit            
