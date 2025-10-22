@@ -53,17 +53,17 @@ loop:
 
     # First operation
     fmsub.s f4, f1, f1, f2              # v1[i]*v1[i] – v2[i];
-    fsw f4, 0(x7)                       # Store the result in V4
+    fsw f4, 0(x14)                      # Store the result in V4
 
     # Second operation
     fdiv.s f5, f4, f3                   # v4[i]/v3[i]
     fsub.s f6, f5, f2                   # v4[i]/v3[i] – v2[i]
-    fsw f6, 0(x8)                       # Store the result in V5
+    fsw f6, 0(x15)                      # Store the result in V5
 
     # Third operation
     fsub.s f7, f4, f3                   # (v4[i]-v1[i])
     fmul.s f8, f7, f6                   # (v4[i]-v1[i])*v5[i];
-    fsw f8, 0(x9)                       # Store the result in V6
+    fsw f8, 0(x16)                      # Store the result in V6
 
     # Decrease counter
     li x21, 1
