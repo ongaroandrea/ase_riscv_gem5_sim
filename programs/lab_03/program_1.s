@@ -26,6 +26,8 @@ V4:     .space      128              # 32 * 4 bytes
 V5:     .space      128     
 V6:     .space      128
 
+float_val: .float 1.0
+
 #Code section
 .section .text
 .globl _start
@@ -40,8 +42,9 @@ _start:
     # Initialize counter (i = 31)
     li x1, 1                            # Variable m (integer) initialized to 1
     li x2, 31                           # Counter: i = 31
-    li f4, 1.0                          # Variable a (float) initialized to 1.0
-    li f5, 1.0                          # Variable b (float) initialized to 1.0
+    la x10, float_val
+    flw f4, 0(x10) 	                # Variable a (float) initialized to 1.0
+    flw f5, 0(x10)                      # Variable b (float) initialized to 1.0
 
     # Load base addresses of vectors
     la x11, V1
@@ -86,10 +89,10 @@ loop:
 
 multiple_of_3:
     # a = v1[i] / ((float) m << i);
-    fcvt.s.w f10, x1                    # Convert m to float in f10
-    slli x27, x2, f10                   # x27 = m << i
-    fcvt.s.w f11, x27                   # Convert (m << i) to float in f11
-    fcvt.w.s x1, f11                    # m = (int) a
+    sll x27, x1, x2                    # x27 = m << i
+    fcvt.s.w f10, x27                   # Convert m to float in f10
+    fdiv.s f4, f1, f10                  # f4 = v1[i] / (m << i)
+    fcvt.w.s x1, f4                     # m = (int) a
 
 after_if:
     # v4[i] = a * v1[i] - v2[i];
