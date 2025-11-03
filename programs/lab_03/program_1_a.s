@@ -40,7 +40,7 @@ _start:
     li x20, 3                           # Constant 3 for modulo operation
 
     la x10, float_val
-    flw f4, 0(x10) 	                # Variable a (float) initialized to 1.0
+    flw f4, 0(x10) 	                    # Variable a (float) initialized to 1.0
     flw f5, 0(x10)                      # Variable b (float) initialized to 1.0
 
     # Load base addresses of vectors
@@ -55,7 +55,7 @@ loop:
 
     # Calculate current index address
     slli x3, x2, 2                      # x3 = i * 4
-    rem x21, x2, x20                    # x21 = i % 3 -- anticipate for if condition
+    rem x28, x2, x20                    # x21 = i % 3 -- anticipate for if condition
 
     # Calculate addresses for current index
     add x21, x11, x3                     # Address of V1[i] = x11 + i * 4
@@ -72,7 +72,7 @@ loop:
 
     # ------------------------------------------------
     # Check if i is a multiple of 3
-    beq x21, x0, multiple_of_3          # If remainder is 0, branch to multiple_of_3
+    beq x28, x0, multiple_of_3          # If remainder is 0, branch to multiple_of_3
 
     # Not a multiple of 3
     # a = v1[i] * ((float) m * i);
@@ -85,7 +85,7 @@ loop:
 
 multiple_of_3:
     # a = v1[i] / ((float) m << i);
-    sll x27, x1, x2                    # x27 = m << i
+    sll x27, x1, x2                     # x27 = m << i
     fcvt.s.w f10, x27                   # Convert m to float in f10
     fdiv.s f4, f1, f10                  # f4 = v1[i] / (m << i)
     fcvt.w.s x1, f4                     # m = (int) a
@@ -102,13 +102,12 @@ after_if:
     fsub.s f8, f7, f5                    # f8 = v4[i]/v3[i] - b
     fsw f8, 0(x25)                       # V5[i] = v4[i]/v3[i] - b
 
+    # Decrease counter
+    add x2, x2, -1                      # x2 = x2 - 1
+
     # v6[i] = (v4[i]-v1[i]) * v5[i];
     fmul.s f10, f9, f8                   # f10 = (v4[i]-v1[i]) * v5[i]
     fsw f10, 0(x26)                      # Store the result in V6
-
-    # Decrease counter
-    li x20, 1
-    sub x2, x2, x20                      # x2 = x2 - 1
 
     # Loop condition
     bge x2, x0, loop                     # If i >= 0, repeat loop                    

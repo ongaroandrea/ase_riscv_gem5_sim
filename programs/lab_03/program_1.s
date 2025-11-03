@@ -34,10 +34,6 @@ float_val: .float 1.0
 
 _start:
 
-    # Free registers for use
-    # x3 - x4 - x5 - x6 - x7 - x8 - x9
-    # temporary registers 
-
 
     # Initialize counter (i = 31)
     li x1, 1                            # Variable m (integer) initialized to 1
@@ -111,8 +107,7 @@ after_if:
     fsw f10, 0(x26)                      # Store the result in V6
 
     # Decrease counter
-    li x20, 1
-    sub x2, x2, x20                      # x2 = x2 - 1
+    add x2, x2, -1                      # x2 = x2 - 1
 
     # Loop condition
     bge x2, x0, loop                     # If i >= 0, repeat loop                    
