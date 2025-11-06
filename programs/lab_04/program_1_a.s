@@ -54,8 +54,8 @@ _start:
 loop:
     flw f2, 0(x10)                      # Load in memory input vector I[i]
     flw f3, 0(x11)                      # Load in memory weight vector W[I]
-    fmul.s f4, f2, f3                   # Multiply I[i] and W[i]
     addi x2, x2, 1                      # Increase the counter
+    fmul.s f4, f2, f3                   # Multiply I[i] and W[i]
     addi x10, x10,4                      # Move to next element in I
     addi x11, x11,4                      # Move to next element in W
     fadd.s f0, f0, f4                   # Add multiplication in result
